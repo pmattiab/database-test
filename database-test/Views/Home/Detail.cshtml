@@ -1,0 +1,164 @@
+﻿@model database_test.Models.ParticipantModel
+
+@{
+    ViewBag.Title = "Dettagli";
+}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-12">
+            <h2>Dettagli di @Model.Name @Model.Surname</h2>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-12">
+            <a href=@Url.Action("Edit", "Home", new { id = Model.Id }) class="btn btn-success">Modifica</a>
+        </div>
+
+        <div class="col-12">
+
+            @using (Html.BeginForm("Update", "Home", FormMethod.Post, new { id = "registration-form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="row text-center mt-4 mb-4">
+                    <div class="col-12">
+                        <h3>Dati personali</h3>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Name, "Nome", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", disabled = "disabled" })
+                        </div>
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Surname, "Cognome", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.DateOfBirth, "Data di nascita", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", type = "date", disabled = "disabled" })
+                        </div>
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Email, "Email", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email", disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center mt-4 mb-4">
+                    <div class="col-12">
+                        <h3>Dettagli congresso</h3>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Discipline, "Disciplina di interesse selezionata", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Discipline, new { @class = "form-control", disabled = "disabled" })
+                        </div>
+
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Session, "Sessione prenotata", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Session, new { @class = "form-control", disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Intolerances, "Intolleranze alimentari", new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Intolerances, new { @class = "form-control", disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#registration-form").validate({
+
+                rules: {
+                    Name: {
+                        required: true,
+                        minlength: 2
+                    },
+                    Surname: {
+                        required: true,
+                        minlength: 2
+                    },
+                    DateOfBirth: {
+                    },
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Intolerances: {
+                        required: true,
+                        minlength: 2
+                    },
+                    Session: {
+                        required: true,
+                    },
+                    privacy: {
+                        required: true,
+                    }
+                },
+
+                messages: {
+                    Name: {
+                        required: "Il nome è obbligatorio",
+                        minlength: "Lunghezza minina 2 caratteri"
+                    },
+                    Surname: {
+                        required: "Il cognome è obbligatorio",
+                        minlength: "Lunghezza minina 2 caratteri"
+                    },
+                    DateOfBirth: {
+                    },
+                    Email: {
+                        required: "L'email è obbligatoria",
+                        email: "Inserisci un formato email valido"
+                    },
+                    Intolerances: {
+                        required: "L'inserimento delle intolleranze è obbligatorio",
+                        minlength: "Lunghezza minina 2 caratteri"
+                    },
+                    Session: {
+                        required: "La selezione di una delle tre sessioni è obbligatoria"
+                    },
+                    privacy: {
+                        required: "L'accetazione dell'informativa sulla privacy è obbligatoria"
+                    }
+                }
+
+            });
+
+        });
+
+    </script>
+
+}

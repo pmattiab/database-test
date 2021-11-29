@@ -1,0 +1,192 @@
+﻿@model database_test.Models.ParticipantModel
+
+@{
+    ViewBag.Title = "Modifica";
+}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-12">
+            <h2>Modifica di @Model.Name @Model.Surname</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+            @using (Html.BeginForm("Update", "Home", FormMethod.Post, new { id = "registration-form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="row text-center mt-4 mb-4">
+                    <div class="col-12">
+                        <h3>Dati personali</h3>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Name, "Nome (*)", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Inserisci il nome" })
+                        </div>
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Surname, "Cognome (*)", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", placeholder = "Inserisci il cognome" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.DateOfBirth, "Data di nascita", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", type = "date" })
+                        </div>
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Email, "Email (*)", new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email", placeholder = "Inserisci l'email" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center mt-4 mb-4">
+                    <div class="col-12">
+                        <h3>Dettagli congresso</h3>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Discipline, "Disciplina di interesse", new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.Discipline,
+                                new List<SelectListItem> {
+                                    new SelectListItem{Text="Pediatria", Value="Pediatria"},
+                                    new SelectListItem{Text="Cardiologia", Value="Cardiologia"},
+                                    new SelectListItem{Text="Chirurgia", Value="Chirurgia"},
+                                    new SelectListItem{Text="Diabetologia", Value="Diabetologia"}
+                                }, "", new { @class = "form-select" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mb-4">
+                        <div class="col-12 mb-2">
+                            @Html.RadioButtonFor(model => model.Session, "Sessione mattutina primo giorno", new { @id = "session1" })
+                            @Html.Label("Sessione mattutina primo giorno", new { @for = "session1" })
+                        </div>
+                        <div class="col-12 mb-2">
+                            @Html.RadioButtonFor(model => model.Session, "Sessione pomeridiana primo giorno", new { @id = "session2" })
+                            @Html.Label("Sessione pomeridiana primo giorno", new { @for = "session2" })
+                        </div>
+                        <div class="col-12 mb-2">
+                            @Html.RadioButtonFor(model => model.Session, "Sessione mattutina secondo giorno", new { @id = "session3" })
+                            @Html.Label("Sessione mattutina secondo giorno", new { @for = "session3" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-4">
+                            @Html.LabelFor(model => model.Intolerances, "Intolleranze alimentari (*)", new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Intolerances, new { @class = "form-control", placeholder = "Inserisci le intolleranze alimentari" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="privacy" name="privacy">
+                            <label class="form-check-label" for="privacy">Leggi l'informativa sulla privacy</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center mb-4">
+                    <div class="col-12">
+                        <input type="submit" class="btn btn-primary" value="Applica Modifiche" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#registration-form").validate({
+
+                rules: {
+                    Name: {
+                        required: true,
+                        minlength: 2
+                    },
+                    Surname: {
+                        required: true,
+                        minlength: 2
+                    },
+                    DateOfBirth: {
+                    },
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Intolerances: {
+                        required: true,
+                        minlength: 2
+                    },
+                    Session: {
+                        required: true,
+                    },
+                    privacy: {
+                        required: true,
+                    }
+                },
+
+                messages: {
+                    Name: {
+                        required: "Il nome è obbligatorio",
+                        minlength: "Lunghezza minina 2 caratteri"
+                    },
+                    Surname: {
+                        required: "Il cognome è obbligatorio",
+                        minlength: "Lunghezza minina 2 caratteri"
+                    },
+                    DateOfBirth: {
+                    },
+                    Email: {
+                        required: "L'email è obbligatoria",
+                        email: "Inserisci un formato email valido"
+                    },
+                    Intolerances: {
+                        required: "L'inserimento delle intolleranze è obbligatorio",
+                        minlength: "Lunghezza minina 2 caratteri"
+                    },
+                    Session: {
+                        required: "La selezione di una delle tre sessioni è obbligatoria"
+                    },
+                    privacy: {
+                        required: "L'accetazione dell'informativa sulla privacy è obbligatoria"
+                    }
+                }
+
+            });
+
+        });
+
+    </script>
+
+}
